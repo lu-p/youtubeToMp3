@@ -187,7 +187,7 @@ layout = [
           [sg.Button("Select", key="selectButton", disabled=False),
            sg.Button("Download", key="downloadButton", disabled=False)],
 
-          [sg.Text("\nRuntime output")],
+          [sg.Text("\nRuntime log")],
 
           [sg.Frame(title="",
                     layout=[frameLayout],
