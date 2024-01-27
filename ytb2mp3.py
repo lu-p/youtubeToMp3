@@ -5,15 +5,15 @@ import pyperclip, time, threading, os, pytube
 
 
 
-# Funzione di copia
+# Function to copy
 def copy_clipboard():
-# Restituisce gli appunti come stringa e li cancella 
+    # Returns clipboard as a string and deletes it
     clipboard=pyperclip.paste()
     pyperclip.copy("")
     return clipboard
 
 
-# Thread di selezione degli url
+# Thread to select url
 def selectVideoUrl():
     global listaUrl
     global testoConsole
@@ -47,7 +47,7 @@ def selectVideoUrl():
     print("Brake thread selectVideoUrl")
 
 
-# Funzione di download
+''' Function to download ''' 
 def downloadVideo(outputFormat, destinationFolder):
     global listaUrl
     global testoConsole
@@ -81,7 +81,7 @@ def downloadVideo(outputFormat, destinationFolder):
         print(yt.title + " has been successfully downloaded.")
    
    
-    print("Downloading ended")
+    print("Download ended")
     testoConsole=testoConsole + "\n" + "Downloading ended"
     window["testoConsole"].update(testoConsole)
    
@@ -145,9 +145,9 @@ def eventLoop():
     
 
 
-# Grafica
-testoConsole="Hello from the converter"
-formatList=["mp3", "mp4"]
+# GUI
+testoConsole="Hi from the converter"
+formatList=["mp3"] #, "mp4"]
 frameLayout=[
              sg.Column([[sg.Text(testoConsole,
                                   key="testoConsole",
@@ -161,28 +161,38 @@ frameLayout=[
              ]
 
 layout = [
-          [sg.Text("Ouput format"), sg.Combo(formatList, formatList[0], key="formatCombo", enable_events=True), sg.Text("\t\t"), sg.Button("Help")],
-          [sg.Text("\n")],
+          [sg.Text("Ouput format"), sg.Combo(formatList, formatList[0],
+           key="formatCombo", enable_events=True), sg.Text("\t\t"), sg.Button("Help")],
+          
+          # workaround to pad
+          [sg.Text("", font=("arial",1))],
+
           [sg.Text("Destination folder: ", key="destinationFolder")],
+
           [sg.FolderBrowse(key="folderBrowse", enable_events=True)],
-          [sg.Text("\n")],
-          [sg.Button("Select", key="selectButton", disabled=False), sg.Button("Download", key="downloadButton", disabled=False)],
-          [sg.Text("\n\nRuntime output")],
+
+          [sg.Text("", font=("arial",1))],
+
+          [sg.Button("Select", key="selectButton", disabled=False),
+           sg.Button("Download", key="downloadButton", disabled=False)],
+
+          [sg.Text("\nRuntime output")],
+
           [sg.Frame(title="",
                     layout=[frameLayout],
                     title_color='black',
-                    size=(300, 100),
+                    size=(300, 300),
                     pad=False,
                     title_location='nw')
           ]
          ]
 
-margins=(40, 40)
+margins=(40, 20)
 size=(400, 400)
-window = sg.Window(title="Python youtube converter", layout=layout, margins=margins, size=size)
+window = sg.Window(title="Youtube to mp3 downloader", layout=layout, margins=margins, size=size)
 
 
-# Thread di selezione
+# Thread for selection
 selectVar=False
 selVideoUrlVar=True
 listaUrl = []
