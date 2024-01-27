@@ -76,7 +76,7 @@ def downloadVideo(outputFormat, destinationFolder):
         os.rename(out_file, new_file)
       
         # result of success
-        testoConsole = testoConsole + "\n" + yt.title + " has been successfully downloaded"
+        testoConsole = testoConsole + "\n" + yt.title + " has been successfully downloaded in: " + new_file
         window["testoConsole"].update(testoConsole)
         print(yt.title + " has been successfully downloaded.")
    
@@ -99,6 +99,9 @@ def eventLoop():
         print(event)
         print(values)
         if event == "selectButton":
+            
+            # Clean clipboard
+            pyperclip.copy("")
             
             window["selectButton"].update(disabled=True)
 
@@ -132,7 +135,15 @@ def eventLoop():
             window["testoConsole"].update(testoConsole)
             
         elif event=="Help":
-            pass
+            
+            helpText = "1) Click on ""Select"" button \n\n2) Browse youtube and add a video link to clipboard (Ctrl-C or mouse drag command)\n\n 3)Repeat step 2 as many times as you like\n\n 4)Click on ""Download"" button.\n\n 5)Done"
+
+            
+            sg.popup_ok(helpText, title="Help",
+                        non_blocking=False,
+                        background_color="pink",
+                        text_color="purple", button_color="violet")
+
         
         # End program if user closes window
         elif event == sg.WIN_CLOSED:
@@ -167,7 +178,7 @@ layout = [
           # workaround to pad
           [sg.Text("", font=("arial",1))],
 
-          [sg.Text("Destination folder: ", key="destinationFolder")],
+          [sg.Text("Destination folder: default", key="destinationFolder")],
 
           [sg.FolderBrowse(key="folderBrowse", enable_events=True)],
 
@@ -181,14 +192,14 @@ layout = [
           [sg.Frame(title="",
                     layout=[frameLayout],
                     title_color='black',
-                    size=(300, 300),
+                    size=(600, 300),
                     pad=False,
                     title_location='nw')
           ]
          ]
 
 margins=(40, 20)
-size=(400, 400)
+size=(600, 400)
 window = sg.Window(title="Youtube to mp3 downloader", layout=layout, margins=margins, size=size)
 
 
